@@ -40,7 +40,7 @@ public class StreamVerarbeitung {
 	public static void main (String[] args) {
 		try {
 			List<String> testListe = StreamVerarbeitung.streamVerarbeiten
-					("Haus", null, "Förster", "Straße", "Bäben", "Hobo-Der-Schwule-Hobbit");
+					("Haus", null, "Förster", "Straße", "Bäben", "Hobo-Der-Hobbit");
 			testListe.forEach(System.out::println);
 		} catch (Exception e) {
 			e.printStackTrace();
