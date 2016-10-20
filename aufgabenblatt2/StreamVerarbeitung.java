@@ -13,7 +13,6 @@ public class StreamVerarbeitung {
 	public static List<String> streamVerarbeiten(String... strings ) {
 		Stream<String> stringStream = Arrays.stream(strings);
 		stringStream = stringStream.filter(Objects::nonNull);
-		stringStream = stringStream.filter(StreamVerarbeitung::isNotNull);
 		stringStream = stringStream.map(string -> string = string.trim().toUpperCase()
 				.replaceAll("Ä", "AE")
 				.replaceAll("Ö", "OE")
@@ -23,13 +22,6 @@ public class StreamVerarbeitung {
 		List<String> stringList = stringStream.collect(Collectors.toCollection(ArrayList::new));
 		stringStream.close();
 		return stringList;
-	}
-	
-	private static boolean isNotNull(Object obj) {
-		if (obj != null) {
-			return true;
-		}
-		return false;
 	}
 	
 	private static String stringKuerzen(String string) {
