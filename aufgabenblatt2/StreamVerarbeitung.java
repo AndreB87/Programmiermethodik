@@ -12,7 +12,7 @@ public class StreamVerarbeitung {
 	public static List<String> streamVerarbeiten(String... strings ) {
 		Stream<String> stringStream = Arrays.stream(strings);
 		stringStream = stringStream.filter(StreamVerarbeitung::isNotNull);
-		stringStream = stringStream.map(string -> string = string.toUpperCase()
+		stringStream = stringStream.map(string -> string = string.trim().toUpperCase()
 				.replaceAll("Ä", "AE")
 				.replaceAll("Ö", "OE")
 				.replaceAll("Ü", "UE")
@@ -40,7 +40,7 @@ public class StreamVerarbeitung {
 	public static void main (String[] args) {
 		try {
 			List<String> testListe = StreamVerarbeitung.streamVerarbeiten
-					("Haus", null, "Förster", "Straße", "Bäben", "Hobo-Der-Hobbit");
+					("Haus", null, " Förster", "Straße", "Bäben", "Hobo-Der-Hobbit");
 			testListe.forEach(System.out::println);
 		} catch (Exception e) {
 			e.printStackTrace();
