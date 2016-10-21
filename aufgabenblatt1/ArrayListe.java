@@ -94,11 +94,8 @@ public class ArrayListe<T extends Comparable<T>> {
 	 * @return				Element an der uebergebenen Position
 	 * @throws ArrayListenException
 	 */
-<<<<<<< HEAD
 	
 	@SuppressWarnings("unchecked")
-=======
->>>>>>> 7b80d1931d2316f8594142e676e133510964922a
 	public T get(int position) throws ArrayListenException {
 		if (position >= 0 && position < anzahlElemente) {
 			return(T) elemente[position];
@@ -112,10 +109,7 @@ public class ArrayListe<T extends Comparable<T>> {
 	 * @return 		kleinstes Element in der Liste
 	 * @throws ArrayListenException
 	 */
-<<<<<<< HEAD
 	@SuppressWarnings("unchecked")
-=======
->>>>>>> 7b80d1931d2316f8594142e676e133510964922a
 	public T getKleinstesElement() throws ArrayListenException {
 		T kleinstes = (T)elemente[0];
 		for (int i = 0; i < anzahlElemente; i++) {

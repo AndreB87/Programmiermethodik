@@ -1,13 +1,7 @@
 package aufgabenblatt1;
 
-<<<<<<< HEAD
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-=======
-import org.junit.Test;
-import static org.junit.Assert.*;
->>>>>>> 7b80d1931d2316f8594142e676e133510964922a
 
 public class ArrayListenTest {
 	
