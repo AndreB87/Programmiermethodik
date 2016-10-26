@@ -6,7 +6,16 @@ import org.junit.Test;
 
 import aufgabenblatt2.Rechner.Operation;
 
+/**
+ * Testet die Klasse Rechner
+ * 
+ * @author andre
+ *
+ */
 public class RechnerTest {
+	/**
+	 * Testet die Berechnung mit dem BinaryOperator
+	 */
 	@Test
 	public void testBinaryOp() {
 		assertEquals(Rechner.berechne(Operation.MULTIPLIKATION, 140, 300000), 42000000.0, 0.00001);
@@ -15,6 +24,9 @@ public class RechnerTest {
 		assertEquals(Rechner.berechne(Operation.SUBTRAKTION, 53, 11), 42.0, 0.00001);
 	}
 	
+	/**
+	 * Testet die Berechnung mit der eigenen Implementierung DoubleDoubleZuDouble
+	 */
 	public void testDoubleDoubleZuDouble() {
 		DoubleDoubleZuDouble ddzd = (op1, op2) -> op1 * op2;
 		assertEquals(ddzd.werteAus(280, 150000), 42000000.0, 0.00001);
