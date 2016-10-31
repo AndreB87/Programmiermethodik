@@ -103,6 +103,7 @@ public class Flugzeug extends Thread {
 	@Override
 	public void run() {
 		try {
+			System.out.println(" --> " + id + " gestartet");
 			while (getRestzeit() > 0) {
 				sleep(500);
 			}
