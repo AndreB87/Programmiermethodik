@@ -59,7 +59,6 @@ public class Flughafen extends Thread {
 		flugzeug.setStatus(Status.IM_LANDEANFLUG);
 		Thread.sleep(1500);
 		flugzeug.istGelandet();
-		flugzeuge.remove(flugzeug);
 	}
 
 	/**
@@ -69,6 +68,7 @@ public class Flughafen extends Thread {
 	@Override
 	public void run() {
 		try {
+			Flugzeug zuEntfernen = null;
 			while (!isInterrupted()) {
 				while (anzahlFlugzeuge >= flugzeuge.size()) {
 					flugzeuge.add(flugzeugAnlegen());
@@ -76,12 +76,17 @@ public class Flughafen extends Thread {
 				Thread.sleep(500);
 				zeit++;
 				System.out.printf("Zeit: %d\n", zeit);
+				//Gibt die aktuelle Zeit an die einzelnen Flugzeuge zurueck und prueft, ob das Flugzeug gelandet ist
 				for (Flugzeug flugzeug : flugzeuge) {
-					if (!flugzeug.isAlive()) {
-						flugzeug.start();
-					}
 					flugzeug.setZeit(zeit);
 					System.out.println(flugzeug);
+					if (flugzeug.isGelandet()) {
+						zuEntfernen = flugzeug;
+					}
+				}
+				//Falls ein FLugzeug gelandet ist, wird es hier aus der Liste entfernt
+				if (zuEntfernen != null) {
+					flugzeuge.remove(zuEntfernen); 
 				}
 			}
 		} catch (InterruptedException e) {

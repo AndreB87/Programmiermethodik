@@ -53,6 +53,7 @@ public class Flugzeug extends Thread {
 		this.startzeit = startzeit;
 		this.zeit = startzeit;
 		this.status = Status.IM_FLUG;
+		this.start();
 	}
 
 	/**
