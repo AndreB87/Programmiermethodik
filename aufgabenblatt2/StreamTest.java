@@ -19,10 +19,11 @@ public class StreamTest {
 	 */
 	@Test
 	public void streamVerarbeitungTest() {
-		List<String> expected = Arrays.asList
-				("EINGABE", "AEUSSERE", "STRASSEN", "EIN HAUS");
-		List<String> testStream = StreamVerarbeitung.streamVerarbeiten
-				("Eingabe ", "Ã„uÃŸeres ", null, "Strassen-Feger", " ein Haus");
+		List<String> expected = Arrays.asList("EINGABE", "AEUSSERE", "STRASSEN",
+				"EIN HAUS", "", "", "OEFFENTL", "UEBERSIC", "|");
+		List<String> testStream = StreamVerarbeitung.streamVerarbeiten(
+				"Eingabe ", "Äußeres ", null, "Strassen-Feger", " ein Haus",
+				"           ", "", "  Öffentlich  ", "übersichtlich", "|");
 		assertEquals(testStream, expected);
 	}
 }
