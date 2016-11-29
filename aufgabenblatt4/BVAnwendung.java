@@ -12,6 +12,7 @@ import aufgabenblatt4.braitenbergvehikel.BraitenbergVehikel;
 import aufgabenblatt4.braitenbergvehikel.Vektor2;
 import aufgabenblatt4.view.BVCanvas;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -56,7 +57,18 @@ public class BVAnwendung extends Application {
 
 		//Knopf und Checkbox initialisieren
 		Button knopf = new Button("Simuliere!");
-		CheckBox checkBox = sim.getCheckBox();
+		CheckBox checkBox = new CheckBox("Simuliere");
+		checkBox.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if(checkBox.isSelected()) {
+					sim.setInterrupted(!checkBox.isSelected());
+					Thread thread = new Thread(sim);
+					thread.start();
+				} else {
+					sim.setInterrupted(!checkBox.isSelected());				}
+				}
+		});
 		knopf.setOnAction(event -> sim.simulationsSchritt());
 		wurzel = new BorderPane();
 		wurzel.setCenter(canvas);

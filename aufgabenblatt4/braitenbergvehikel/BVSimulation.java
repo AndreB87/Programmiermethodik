@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Observable;
 
 import aufgabenblatt4.braitenbergvehikel.BraitenbergVehikel.Richtung;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.CheckBox;
 
 /**
  * Simulation von Braitenberg-Vehikeln.
  * 
  * @author Philipp Jenke
  */
-public class BVSimulation extends Observable {
+public class BVSimulation extends Observable implements Runnable {
 
   /**
    * Position des Signals.
@@ -27,22 +24,10 @@ public class BVSimulation extends Observable {
   private List<BraitenbergVehikel> vehikel =
       new ArrayList<BraitenbergVehikel>();
 
-  private CheckBox checkBox = new CheckBox("Simuliere");
+  private boolean isInterrupted;
   
   public BVSimulation() {
-	  checkBox.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0) {
-				try {
-					while (checkBox.isSelected()) {
-						simulationsSchritt();
-						Thread.sleep(1000);
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		});  }
+  }
 
   /**
    * Führt einen Simulationsschritt für alle Vehikel durch.
@@ -97,14 +82,26 @@ public class BVSimulation extends Observable {
   public Vektor2 getSignal() {
     return signal;
   }
-  
-  public CheckBox getCheckBox() {
-	  return checkBox;
+    
+  public void setInterrupted(boolean isInterrupted) {
+	  this.isInterrupted = isInterrupted;
   }
 
   public void setSignal(double x, double y) {
     signal = new Vektor2(x, y);
     setChanged();
     notifyObservers(this);
+  }
+  
+  @Override
+  public void run() {
+	  try {
+	  while(!isInterrupted) {
+		  simulationsSchritt();
+		  Thread.sleep(50);
+	  }
+	  } catch (InterruptedException e) {
+		  e.printStackTrace();
+	  }
   }
 }
