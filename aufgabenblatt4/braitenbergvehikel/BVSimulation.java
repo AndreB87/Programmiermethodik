@@ -13,95 +13,91 @@ import aufgabenblatt4.braitenbergvehikel.BraitenbergVehikel.Richtung;
  */
 public class BVSimulation extends Observable implements Runnable {
 
-  /**
-   * Position des Signals.
-   */
-  private Vektor2 signal = new Vektor2(150, 200);
+	/**
+	 * Position des Signals.
+	 */
+	private Vektor2 signal = new Vektor2(150, 200);
 
-  /**
-   * Liste der zu simulierenden Vehikel
-   */
-  private List<BraitenbergVehikel> vehikel =
-      new ArrayList<BraitenbergVehikel>();
+	/**
+	 * Liste der zu simulierenden Vehikel
+	 */
+	private List<BraitenbergVehikel> vehikel = new ArrayList<BraitenbergVehikel>();
 
-  private boolean isInterrupted;
-  
-  public BVSimulation() {
-  }
+	private boolean isInterrupted;
 
-  /**
-   * Führt einen Simulationsschritt für alle Vehikel durch.
-   */
-  public void simulationsSchritt() {
-    for (BraitenbergVehikel vehikel : this.vehikel) {
-      // Berechne Sensorstärke
-      vehikel.setSensorwert(Richtung.LINKS,
-          getSignalstaerke(vehikel.getSensorPosition(Richtung.LINKS),
-              vehikel.getOrientierung()));
-      vehikel.setSensorwert(Richtung.RECHTS,
-          getSignalstaerke(vehikel.getSensorPosition(Richtung.RECHTS),
-              vehikel.getOrientierung()));
+	public BVSimulation() {
+	}
 
-      // Bewege vehikel
-      vehikel.bewege();
-    }
-    setChanged();
-    notifyObservers(this);
-  }
+	/**
+	 * Führt einen Simulationsschritt für alle Vehikel durch.
+	 */
+	public void simulationsSchritt() {
+		for (BraitenbergVehikel vehikel : this.vehikel) {
+			// Berechne Sensorstärke
+			vehikel.setSensorwert(Richtung.LINKS,
+					getSignalstaerke(vehikel.getSensorPosition(Richtung.LINKS), vehikel.getOrientierung()));
+			vehikel.setSensorwert(Richtung.RECHTS,
+					getSignalstaerke(vehikel.getSensorPosition(Richtung.RECHTS), vehikel.getOrientierung()));
 
-  /**
-   * Berechnet die Signalstärke für einen Sensor durch die Lichtquelle.
-   */
-  private double getSignalstaerke(Vektor2 sensorPosition,
-      Vektor2 orientierung) {
-    Vektor2 d = signal.subtrahiere(sensorPosition);
-    double entfernung = d.getNorm();
-    d = d.skaliere(1.0 / entfernung);
-    double cosWinkel = d.skalarProdukt(orientierung);
-    if (cosWinkel < 0) {
-      // Vehikel sieht vom Sensor weg.
-      return 0;
-    }
+			// Bewege vehikel
+			vehikel.bewege();
+		}
+		setChanged();
+		notifyObservers(this);
+	}
 
-    // Winkel-basierte Signalstärke
-    return cosWinkel;
-  }
+	/**
+	 * Berechnet die Signalstärke für einen Sensor durch die Lichtquelle.
+	 */
+	private double getSignalstaerke(Vektor2 sensorPosition, Vektor2 orientierung) {
+		Vektor2 d = signal.subtrahiere(sensorPosition);
+		double entfernung = d.getNorm();
+		d = d.skaliere(1.0 / entfernung);
+		double cosWinkel = d.skalarProdukt(orientierung);
+		if (cosWinkel < 0) {
+			// Vehikel sieht vom Sensor weg.
+			return 0;
+		}
 
-  public void vehikelHinzufuegen(BraitenbergVehikel vehikel) {
-    this.vehikel.add(vehikel);
-  }
+		// Winkel-basierte Signalstärke
+		return cosWinkel;
+	}
 
-  public int getAnzahlVehike() {
-    return vehikel.size();
-  }
+	public void vehikelHinzufuegen(BraitenbergVehikel vehikel) {
+		this.vehikel.add(vehikel);
+	}
 
-  public BraitenbergVehikel getVehikel(int index) {
-    return vehikel.get(index);
-  }
+	public int getAnzahlVehike() {
+		return vehikel.size();
+	}
 
-  public Vektor2 getSignal() {
-    return signal;
-  }
-    
-  public void setInterrupted(boolean isInterrupted) {
-	  this.isInterrupted = isInterrupted;
-  }
+	public BraitenbergVehikel getVehikel(int index) {
+		return vehikel.get(index);
+	}
 
-  public void setSignal(double x, double y) {
-    signal = new Vektor2(x, y);
-    setChanged();
-    notifyObservers(this);
-  }
-  
-  @Override
-  public void run() {
-	  try {
-	  while(!isInterrupted) {
-		  simulationsSchritt();
-		  Thread.sleep(50);
-	  }
-	  } catch (InterruptedException e) {
-		  e.printStackTrace();
-	  }
-  }
+	public Vektor2 getSignal() {
+		return signal;
+	}
+
+	public void setInterrupted(boolean isInterrupted) {
+		this.isInterrupted = isInterrupted;
+	}
+
+	public void setSignal(double x, double y) {
+		signal = new Vektor2(x, y);
+		setChanged();
+		notifyObservers(this);
+	}
+
+	@Override
+	public void run() {
+		try {
+			while (!isInterrupted) {
+				simulationsSchritt();
+				Thread.sleep(50);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
