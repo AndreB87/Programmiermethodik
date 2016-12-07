@@ -23,9 +23,6 @@ import javafx.scene.transform.Rotate;
  * @author Philipp Jenke
  */
 public class BVCanvas extends Canvas implements Observer {
-
-	private final static int KORREKTUR_X = -25;
-
 	/**
 	 * Bild eines Vehikels. Achtung: Package mit dem Bild muss korrekt angegeben
 	 * werden.
@@ -35,12 +32,12 @@ public class BVCanvas extends Canvas implements Observer {
 	/**
 	 * Bild mit der Darstellung fuer die Bewegungsart Abstossung
 	 */
-	private final String abstossung = "/aufgabenblatt4/assets/icon_abstossung.png";
+	private final Image abstossung = new Image("/aufgabenblatt4/assets/icon_abstossung.png");
 
 	/**
 	 * Bild mit der Darstellung fuer die Bewegungsart Attraktion
 	 */
-	private final String attraktion = "/aufgabenblatt4/assets/icon_attraktion.png";
+	private final Image attraktion = new Image("/aufgabenblatt4/assets/icon_attraktion.png");
 	/**
 	 * Referenz auf die Simulation.
 	 */
@@ -50,6 +47,9 @@ public class BVCanvas extends Canvas implements Observer {
 		super(breite, hoehe);
 		this.sim = sim;
 		this.sim.addObserver(this);
+		for (int i = 0; i < sim.getAnzahlVehike(); i++) {
+			sim.getVehikel(i).addObserver(this);
+		}
 		setzeSignalMitMaus();
 	}
 
@@ -58,9 +58,9 @@ public class BVCanvas extends Canvas implements Observer {
 		addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				Vektor2 koordinaten = new Vektor2(event.getSceneX(), event.getSceneY());
+				Vektor2 koordinaten = new Vektor2(event.getX(), event.getY());
 				Point point = bild2WeltKoordinaten(koordinaten);
-				sim.setSignal(point.getX() + KORREKTUR_X, point.getY());
+				sim.setSignal(point.getX(), point.getY());
 			}
 		});
 	}
@@ -110,7 +110,7 @@ public class BVCanvas extends Canvas implements Observer {
 	private void zeichneGedrehtesBild(GraphicsContext gc, Image image, Image bewegungsImage, String bvName,
 			double winkel, double x, double y) {
 		final int bewegungsImageKorrektur = 40;
-		final int nameKorrektur = 60;
+		final int nameKorrektur = 65;
 		// Zustand auf dem Stack sichern
 		gc.save();
 		rotieren(gc, winkel, x + image.getWidth() / 2, y + image.getHeight() / 2);
@@ -129,9 +129,9 @@ public class BVCanvas extends Canvas implements Observer {
 		Point p = welt2BildKoordinaten(bv.getPosition());
 		Image bewegungsImage;
 		if (bv.getBewegung() instanceof BVBewegungAbstossung) {
-			bewegungsImage = new Image(abstossung);
+			bewegungsImage = abstossung;
 		} else {
-			bewegungsImage = new Image(attraktion);
+			bewegungsImage = attraktion;
 		}
 		double winkelInGrad = bv.getRotationGradImUhrzeigersinn();
 		int x = (int) (p.x - bv.getSeitenlaenge() / 2);

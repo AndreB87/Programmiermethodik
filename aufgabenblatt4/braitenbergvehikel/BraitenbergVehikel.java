@@ -65,15 +65,10 @@ public class BraitenbergVehikel extends Observable {
 		this.bewegung = bewegung;
 		this.position = position;
 		this.orientierung = orientierung;
-		initComboBox();
 	}
 
 	public BraitenbergVehikel(String name, BVBewegung bewegung) {
 		this(name, bewegung, new Vektor2(0, 0), new Vektor2(0, 1));
-	}
-
-	private void initComboBox() {
-		
 	}
 
 	/**
@@ -202,6 +197,8 @@ public class BraitenbergVehikel extends Observable {
 
 	public void setBewegung(BVBewegung bewegung) {
 		this.bewegung = bewegung;
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getName() {
